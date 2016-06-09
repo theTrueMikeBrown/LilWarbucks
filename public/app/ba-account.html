@@ -58,7 +58,11 @@
     :
     <span id="val"
       contenteditable$="[[editable]]"></span>
-    <paper-icon-button id="toggleChange" icon="create"></paper-icon-button>
+    <paper-icon-button id="toggleChange" icon="create" hidden$="{{!changing}}"></paper-icon-button>
+	
+	<span>{{val}}</span><paper-icon-button id="toggleChange" icon="create"></paper-icon-button>
+    <paper-input hidden$="{{!changing}}" value="{{changeValue}}" type="number" on-keydown="enterOnChange" id="changeValueInput"><paper-icon-button id="doneChanging" suffix icon="done"></paper-icon-button></paper-input>
+	
   </template>
   <script>
     Polymer({
