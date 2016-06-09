@@ -1,0 +1,98 @@
+<link rel="import" href="/bower_components/app-storage/app-network-status-behavior.html">
+<script>
+  (() => {
+    'use strict';
+
+    Polymer.BankAppBehaviorImpl = {
+      properties: {
+        editableChildId: {
+          type: String,
+          notify: true
+        }
+      },
+
+      get childrenPath() {
+        return '';
+      },
+
+      get isEditable() {
+        return true;
+      },
+
+      toEditableId(childId) {
+        return childId;
+      },
+
+      edit(event) {
+        if (this.isEditable) {
+          let childElement = Polymer.dom(event).localTarget;
+          this.editableChildId = this.toEditableId(childElement.id);
+
+          this.$.childDocument.transactionsComplete.then(() => {
+            this.$.editor.open(childElement);
+          });
+        }
+      },
+
+      create() {
+        if (this.isEditable) {
+          this.editableChildId = null;
+          this.$.editor.open();
+        }
+      },
+
+      commitChange(event) {
+        var changeCommits;
+
+        switch (event.detail) {
+          case 'save':
+            changeCommits = this.save();
+            break;
+          case 'delete':
+            changeCommits = this.delete();
+            break;
+          default:
+            changeCommits = Promise.resolve();
+            break;
+        }
+
+        if (this.$.query && this.$.query.refresh) {
+          changeCommits.then(() => {
+            this.$.query.refresh();
+          });
+        }
+      },
+
+      save() {
+        if (this.$.childDocument.isNew &&
+            (this.editableChild.name ||
+             this.editableChild.accounts)) {
+          return this.$.childDocument.save(this.childrenPath).then(() => {
+            this.$.childDocument.reset();
+          });
+        }
+
+        return Promise.resolve();
+      },
+
+      delete() {
+        if (!this.$.childDocument.isNew) {
+          this.$.childDocument.destroy();
+        }
+
+        return Promise.resolve();
+      },
+
+      signOut() {
+        if (this.$.auth) {
+          this.$.auth.signOut();
+        }
+      }
+    };
+
+    Polymer.BankAppBehavior = [
+      Polymer.AppNetworkStatusBehavior,
+      Polymer.BankAppBehaviorImpl
+    ];
+  })();
+</script>

@@ -1,0 +1,131 @@
+<link rel="import" href="/bower_components/paper-styles/shadow.html">
+<link rel="import" href="/bower_components/paper-styles/typography.html">
+<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<dom-module id="ba-account">
+  <template>
+    <style>
+      :host {
+        display: block;
+        box-sizing: border-box;
+        background-color: #fafafa;
+        color: #212121;
+        padding: 1em;
+        @apply(--paper-font-common-base);
+        @apply(--shadow-elevation-2dp);
+        border-radius: 2px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      h1 {
+        font-size: 1.15em;
+        margin: 0;
+        white-space: pre-wrap;
+      }
+
+      h1:not(.hidden)+p {
+        margin-top: 1em;
+      }
+
+      p {
+        margin: 0;
+        font-family: 'Roboto Slab', Times New Roman, serif;
+        font-size: 0.9em;
+        white-space: pre-wrap;
+      }
+
+      .placeholder:after {
+        content: 'Tap to edit';
+        opacity: 0.5;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .empty {
+        font-style: italic;
+        color: #737373;
+        line-height: 0;
+        pointer-events: none;
+      }
+    </style>
+    <strong id="title"
+      class$="[[emptyClass(title, editable)]]"
+      contenteditable$="[[editable]]"></strong>
+    :
+    <span id="val"
+      contenteditable$="[[editable]]"></span>
+    <paper-icon-button id="toggleChange" icon="create"></paper-icon-button>
+  </template>
+  <script>
+    Polymer({
+      is: 'ba-account',
+
+      properties: {
+        editable: {
+          type: Boolean,
+          reflectToAttribute: true,
+          value: false
+        },
+
+        title: {
+          type: String,
+          notify: true,
+          value: ''
+        },
+
+        val: {
+          type: Number,
+          notify: true,
+          value: 0.00
+        },
+
+        lastUpdated: {
+          type: Number,
+          value: 0
+        }
+      },
+
+      listeners: {
+        input: 'onInput'
+      },
+
+      observers: [
+        'updateTextContent(title, val)'
+      ],
+
+      emptyClass(content, editable) {
+        if (editable) {
+          return !content ? 'placeholder' : '';
+        } else {
+          return !content ? 'hidden' : '';
+        }
+      },
+
+      propertiesAreEmpty() {
+        for (var i = 0; i < arguments.length; ++i) {
+          if (arguments[i]) {
+            return false;
+          }
+        }
+        return true;
+      },
+
+      updateTextContent(title, val) {      
+        console.log(arguments);
+        this.$.title.textContent = title;
+        this.$.val.textContent = val.toFixed(2);
+      },
+
+      onInput() {
+        this.async(function() {
+          this.title = this.$.title.innerText;
+          this.val = Number(this.$.val.innerText);
+        });
+      }
+    })
+  </script>
+</dom-module>

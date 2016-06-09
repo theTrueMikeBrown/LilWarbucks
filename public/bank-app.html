@@ -1,0 +1,87 @@
+<link rel="import" href="/app/ba-elements.html">
+<link rel="import" href="/bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
+<link rel="import" href="/bower_components/polymerfire/polymerfire.html">
+
+<dom-module id="bank-app">
+  <template>
+    <style include="bank-app-shared-styles"></style>
+    <ba-toolbar
+      signed-in="[[signedIn]]"
+      on-sign-out="signOut">
+    </ba-toolbar>
+    <ba-login
+      on-sign-in="signIn"
+      signed-in="[[signedIn]]"
+      disabled="[[!online]]">
+    </ba-login>
+    <firebase-auth
+      id="auth"
+      app-name="bank"
+      provider="google"
+      signed-in="{{signedIn}}"
+      user="{{user}}">
+    </firebase-auth>
+    <ba-editor
+      id="editor"
+      child="{{editableChild}}"
+      on-close="commitChange">
+    </ba-editor>
+    <firebase-document
+      id="childDocument"
+      app-name="bank"
+      path="[[editableChildId]]"
+      data="{{editableChild}}">
+    </firebase-document>
+    <firebase-query
+      id="query"
+      app-name="bank"
+      path="/children/[[user.uid]]"
+      data="{{children}}">
+    </firebase-query>    
+    <app-indexeddb-mirror
+      session="[[user.uid]]"
+      key="children"
+      data="{{children}}"
+      persisted-data="{{persistedChildren}}">
+    </app-indexeddb-mirror>
+    <paper-fab
+      icon="add"
+      on-tap="create"
+      disabled="[[!online]]"
+      aria-label="Add child">
+    </paper-fab>
+    <div class="children">
+      <template is="dom-repeat" items="[[persistedChildren]]" as="child">
+        <ba-child
+          id$="[[child.$key]]"
+          name="[[child.name]]"
+          accounts="[[child.accounts]]"
+          on-tap="edit">
+        </ba-child>
+      </template>
+    </div>
+</template>
+  <script>
+    Polymer({
+      is: 'bank-app',
+    
+      behaviors: [Polymer.BankAppBehavior],
+    
+      signIn: function() {
+        this.$.auth.signInWithPopup();
+      },
+    
+      get childrenPath() {
+        return '/children/' + this.user.uid;
+      },
+    
+      toEditableId: function(childId) {
+        return this.childrenPath + '/' + childId;
+      },
+    
+      get isEditable() {
+        return this.online;
+      }
+    });
+  </script>
+</dom-module>
