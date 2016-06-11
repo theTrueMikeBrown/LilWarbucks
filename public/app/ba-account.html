@@ -1,6 +1,8 @@
 <link rel="import" href="/bower_components/paper-styles/shadow.html">
 <link rel="import" href="/bower_components/paper-styles/typography.html">
 <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<script src="/bower_components/accounting/accounting.js"></script>
 <dom-module id="ba-account">
   <template>
     <style>
@@ -56,37 +58,35 @@
       class$="[[emptyClass(title, editable)]]"
       contenteditable$="[[editable]]"></strong>
     :
-    <span id="val"
-      contenteditable$="[[editable]]"></span>
-    <paper-icon-button id="toggleChange" icon="create" hidden$="{{!changing}}"></paper-icon-button>
-	
-	<span>{{val}}</span><paper-icon-button id="toggleChange" icon="create"></paper-icon-button>
-    <paper-input hidden$="{{!changing}}" value="{{changeValue}}" type="number" on-keydown="enterOnChange" id="changeValueInput"><paper-icon-button id="doneChanging" suffix icon="done"></paper-icon-button></paper-input>
-	
+    <span>{{toFixed(val)}}</span>
+    <paper-icon-button id="toggleChange" icon="create" on-tap="toggleChangeTap"></paper-icon-button>
+    <paper-icon-button hidden$="{{!changing}}" id="delete" suffix icon="close" on-tap="deleteTap"></paper-icon-button>
+    <paper-input hidden$="{{!changing}}" value="{{changeValue}}" type="number" on-keydown="enterOnChange" id="changeValueInput">
+      <paper-icon-button id="doneChanging" suffix icon="done" on-tap="doneChangingTap"></paper-icon-button>
+    </paper-input>
+    
   </template>
   <script>
     Polymer({
       is: 'ba-account',
-
       properties: {
         editable: {
           type: Boolean,
           reflectToAttribute: true,
           value: false
         },
-
+        changeValue: { type: String },
+        changing: { type: Boolean, value: false },
         title: {
           type: String,
           notify: true,
           value: ''
         },
-
         val: {
           type: Number,
           notify: true,
           value: 0.00
         },
-
         lastUpdated: {
           type: Number,
           value: 0
@@ -94,13 +94,38 @@
       },
 
       listeners: {
-        input: 'onInput'
+        'input': 'onInput',
       },
 
       observers: [
-        'updateTextContent(title, val)'
+        'updateTextContent(title, val)',
       ],
 
+      enterOnChange: function (e) {        
+        if (e.keyCode === 13 || e.keyCode === 9) {
+          this.doneChangingTap();
+        }
+      },
+    
+      deleteTap: function(e) {
+        this.fire('delete', this.title, { bubbles: false });
+      },
+    
+      toggleChangeTap: function(e) {
+        this.changing = !this.changing;
+        this.$.changeValueInput.$.input.focus()
+      },
+    
+      doneChangingTap: function(e) {
+        this.changing = false;
+        this.val = (accounting.unformat(this.val) + accounting.unformat(this.changeValue)).toFixed(2);
+        this.changeValue = "";
+      },
+      
+      toFixed(n){
+        return n.toFixed ? n.toFixed(2) : n;
+      },
+      
       emptyClass(content, editable) {
         if (editable) {
           return !content ? 'placeholder' : '';
@@ -121,13 +146,11 @@
       updateTextContent(title, val) {      
         console.log(arguments);
         this.$.title.textContent = title;
-        this.$.val.textContent = val.toFixed(2);
       },
 
       onInput() {
         this.async(function() {
           this.title = this.$.title.innerText;
-          this.val = Number(this.$.val.innerText);
         });
       }
     })

@@ -1,5 +1,7 @@
 <link rel="import" href="/bower_components/paper-styles/shadow.html">
 <link rel="import" href="/bower_components/paper-styles/typography.html">
+<script src="/bower_components/lodash/lodash.js"></script>
+
 <dom-module id="ba-child">
   <template>
     <style>
@@ -60,33 +62,30 @@
         id$="[[account.$key]]"
         title="{{account.title}}"
         val="{{account.val}}"
-        editable="[[editable]]">
+        editable="[[editable]]"
+        on-delete="deleteAccount">
       </ba-account>
     </template>
   </template>
   <script>
     Polymer({
       is: 'ba-child',
-
       properties: {
         editable: {
           type: Boolean,
           reflectToAttribute: true,
           value: false
         },
-
         name: {
           type: String,
           notify: true,
           value: ''
         },
-
         accounts: {
           type: Array,
           notify: true,
           value: []
         },
-
         lastUpdated: {
           type: Number,
           value: 0
@@ -127,6 +126,13 @@
         this.async(function() {
           this.name = this.$.name.innerText;
         });
+      },
+      
+      deleteAccount(e) {
+        var i = _.findIndex(this.accounts, function(account) { return e.detail === account.title; });
+        if (i > -1) {
+          this.splice("accounts", i, 1);
+        }
       }
     })
   </script>
