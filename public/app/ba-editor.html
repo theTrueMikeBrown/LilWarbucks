@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="/bower_components/paper-styles/color.html">
 <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/paper-dialog-behavior/demo/simple-dialog.html">
 <dom-module id="ba-editor">
   <template>
     <style>
@@ -21,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 1;
+        z-index: 2;
       }
 
       :host([opened]) {
@@ -32,7 +33,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-color: var(--paper-green-500);
       }
 
-      paper-button {
+      paper-button.command {
         color: var(--paper-green-50);
       }
 
@@ -79,12 +80,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         opacity: 1;
       }
     </style>
+  
+    <simple-dialog role="alertdialog" id="deleteChildConfirmDialog">
+      <h2>Delete Child</h2>
+      <div>Are you sure?</div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm>Accept</paper-button>
+      </div>
+    </simple-dialog>
+
     <div id="background"></div>
     <ba-child id="child" name="{{child.name}}" accounts="{{child.accounts}}" editable></ba-child>
     <div class="controls">
-      <paper-button on-tap="delete">Delete</paper-button>
-      <paper-button on-tap="add">Add Account</paper-button>
-      <paper-button on-tap="save">Done</paper-button>
+      <paper-button class="command" on-tap="deleteTap">Delete</paper-button>
+      <paper-button class="command" on-tap="addTap">Add Account</paper-button>
+      <paper-button class="command" on-tap="saveTap">Done</paper-button>
     </div>
   </template>
   <script>
@@ -104,7 +115,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: false
         },
       },
-
+      
+      listeners: {
+        'deleteChildConfirmDialog.iron-overlay-closed':'_deleteConfirmed'
+      },
+      
       open(childElement) {
         this._setOpened(true);
         this.__editedChildElement = childElement;
@@ -122,15 +137,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.transitionInFrom(this.getBoundingClientRect());
       },
 
-      save() {
+      saveTap() {
         this.close('save');
       },
 
-      delete() {
-        this.close('delete');
+      deleteTap() {
+        this.$.deleteChildConfirmDialog.toggle();
       },
 
-      add() {
+      _deleteConfirmed: function(e) {
+        if (e.target.closingReason.confirmed) {  
+          this.close('delete');
+        }
+      },
+
+      addTap() {
         this.push("child.accounts", {title: '', val: 0.00});
         //this.notifyPath('child.accounts', this.child.accounts);
       },

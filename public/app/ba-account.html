@@ -2,6 +2,7 @@
 <link rel="import" href="/bower_components/paper-styles/typography.html">
 <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/paper-dialog-behavior/demo/simple-dialog.html">
 <script src="/bower_components/accounting/accounting.js"></script>
 <dom-module id="ba-account">
   <template>
@@ -54,17 +55,25 @@
         pointer-events: none;
       }
     </style>
+    <simple-dialog role="alertdialog" id="deleteConfirmDialog">
+      <h2>Delete Account</h2>
+      <div>Are you sure?</div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm>Accept</paper-button>
+      </div>
+    </simple-dialog>
+
     <strong id="title"
       class$="[[emptyClass(title, editable)]]"
       contenteditable$="[[editable]]"></strong>
     :
     <span>{{toFixed(val)}}</span>
-    <paper-icon-button id="toggleChange" icon="create" on-tap="toggleChangeTap"></paper-icon-button>
+    <paper-icon-button id="toggleChange" icon="create" on-tap="toggleChangeTap" hidden$="{{!editable}}"></paper-icon-button>
     <paper-icon-button hidden$="{{!changing}}" id="delete" suffix icon="close" on-tap="deleteTap"></paper-icon-button>
     <paper-input hidden$="{{!changing}}" value="{{changeValue}}" type="number" on-keydown="enterOnChange" id="changeValueInput">
       <paper-icon-button id="doneChanging" suffix icon="done" on-tap="doneChangingTap"></paper-icon-button>
-    </paper-input>
-    
+    </paper-input>    
   </template>
   <script>
     Polymer({
@@ -95,6 +104,7 @@
 
       listeners: {
         'input': 'onInput',
+        'deleteConfirmDialog.iron-overlay-closed':'_deleteConfirmed'
       },
 
       observers: [
@@ -108,7 +118,13 @@
       },
     
       deleteTap: function(e) {
-        this.fire('delete', this.title, { bubbles: false });
+        this.$.deleteConfirmDialog.toggle();
+      },
+      
+      _deleteConfirmed: function(e) {
+        if (e.target.closingReason.confirmed) {  
+          this.fire('delete', this.title, { bubbles: false });        
+        }
       },
     
       toggleChangeTap: function(e) {
@@ -144,7 +160,7 @@
       },
 
       updateTextContent(title, val) {      
-        console.log(arguments);
+        //console.log(arguments);
         this.$.title.textContent = title;
       },
 
