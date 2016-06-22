@@ -52,6 +52,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-icon icon="cloud" hidden$="[[!online]]"></iron-icon>
     <iron-icon icon="cloud-off" hidden$="[[online]]"></iron-icon>
     <paper-icon-button
+            icon="link"
+            disabled="[[!signedIn]]"
+            on-tap="link">
+    </paper-icon-button>
+    <paper-icon-button
         icon="[[computeLockIcon(signedIn)]]"
         disabled="[[!signedIn]]"
         on-tap="lock">
@@ -79,6 +84,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       lock: function() {
         this.fire('sign-out');
+      },
+
+      link: function() {
+        this.fire('show-link-dialog');
       }
     });
   </script>

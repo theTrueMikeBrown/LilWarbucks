@@ -1,0 +1,112 @@
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/paper-dialog-behavior/demo/simple-dialog.html">
+<link rel="import" href="/bower_components/polymerfire/polymerfire.html">
+
+<dom-module id="ba-link-dialog">
+  <template>
+    <style>
+    </style>
+    <simple-dialog role="dialog" id="linkAccountDialog">
+      <h2>Link Account</h2>
+      <div>Link your account to the following account?</div>
+      <paper-input value="{{accountEmail}}" id="accountEmail"></paper-input>    
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm>Accept</paper-button>
+      </div>
+    </simple-dialog>
+    <firebase-document
+      id="userDocument"
+      app-name="bank"
+      path="/users/[[inUid]]"
+      data="{{profile}}">
+    </firebase-document>
+<!--    <firebase-query
+      id="queryUser"
+      app-name="bank"
+      path="/users/[[inUid]]"
+      data="{{profile}}">
+    </firebase-query> -->
+    <firebase-query
+      id="queryTargetUid"
+      app-name="bank"
+      path="/users/[[targetUid]]"
+      data="{{targetProfile}}">
+    </firebase-query>
+    <firebase-query
+      app-name="bank"
+      id="queryTargetUserByEmail"
+      path="/users"
+      data="{{targetProfileByEmail}}">
+    </firebase-query>
+  </template>
+  <script>
+    Polymer({
+      is: 'ba-link-dialog',
+      properties: {
+        targetUid: {
+          type: String,
+          notify: true,
+          value: ''
+        },
+        inUid: {
+          type: String,
+          notify: true,
+          value: ''
+        },
+        profile: {
+          type: Array,
+          notify: true,
+          value: []
+        },
+        accountEmail: {
+          type: String,
+          notify: true,
+        },
+        targetProfile: {
+          type: Array,
+          notify: true,
+          value: []
+        },
+        targetProfileByEmail: {
+          type: Object,
+          notify: true          
+        },
+        children: {
+          type: Array
+        }
+      },
+      observers: [
+        'updateUser(profile.*)',
+        'updateTargetUser(targetProfile.*)',
+      ],
+      listeners: {
+        'linkAccountDialog.iron-overlay-closed':'_linkConfirmed'
+      },
+      updateUser: function(user) {
+        if (this.profile && this.profile.profile && this.profile.profile.sameAs) {
+          this.targetUid = this.profile.profile.sameAs;
+        }
+        else if (this.profile && this.profile[0] && this.profile[0].sameAs) {
+          this.targetUid = this.profile[0].sameAs;
+        }
+      },
+      updateTargetUser: function(user) {
+        if (this.targetProfile[0] && this.targetProfile[0].email) {
+          this.accountEmail = this.targetProfile[0].email;
+        }
+      },          
+      open: function(e) {
+        this.$.linkAccountDialog.toggle();
+      },
+      _linkConfirmed: function(e) {
+        if (e.target.closingReason.confirmed) {
+          var that = this;
+          var profile = _.find(this.targetProfileByEmail, function(e) {return e.profile.email === that.accountEmail})
+          this.targetUid = profile.$key;
+          this.$.userDocument.setStoredValue("users/"+this.inUid+"/profile/sameAs", profile.$key);
+        }
+      },
+   })
+  </script>
+</dom-module>

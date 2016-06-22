@@ -7,7 +7,8 @@
     <style include="bank-app-shared-styles"></style>
     <ba-toolbar
       signed-in="[[signedIn]]"
-      on-sign-out="signOut">
+      on-sign-out="signOut"
+      on-show-link-dialog="showLinkDialog">
     </ba-toolbar>
     <ba-login
       on-sign-in="signIn"
@@ -35,11 +36,11 @@
     <firebase-query
       id="query"
       app-name="bank"
-      path="/children/[[user.uid]]"
+      path="/children/[[targetUid]]"
       data="{{children}}">
-    </firebase-query>    
+    </firebase-query>
     <app-indexeddb-mirror
-      session="[[user.uid]]"
+      session="[[targetUid]]"
       key="children"
       data="{{children}}"
       persisted-data="{{persistedChildren}}">
@@ -50,6 +51,11 @@
       disabled="[[!online]]"
       aria-label="Add child">
     </paper-fab>
+    <ba-link-dialog
+      id="baLinkDialog"
+      target-uid="{{targetUid}}"
+      in-uid="[[user.uid]]">
+    </ba-link-dialog>
     <div class="children">
       <template is="dom-repeat" items="[[persistedChildren]]" as="child">
         <ba-child
@@ -64,7 +70,7 @@
   <script>
     Polymer({
       is: 'bank-app',
-    
+
       behaviors: [Polymer.BankAppBehavior],
     
       signIn: function() {
@@ -72,7 +78,7 @@
       },
     
       get childrenPath() {
-        return '/children/' + this.user.uid;
+        return '/children/' + this.targetUid;
       },
     
       toEditableId: function(childId) {
@@ -81,6 +87,10 @@
     
       get isEditable() {
         return this.online;
+      },
+
+      showLinkDialog: function() {
+        this.$.baLinkDialog.open();
       }
     });
   </script>

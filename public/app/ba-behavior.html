@@ -1,6 +1,6 @@
 <link rel="import" href="/bower_components/app-storage/app-network-status-behavior.html">
 <script>
-  (() => {
+  (function() {
     'use strict';
 
     Polymer.BankAppBehaviorImpl = {
@@ -19,29 +19,30 @@
         return true;
       },
 
-      toEditableId(childId) {
+      toEditableId: function(childId) {
         return childId;
       },
 
-      edit(event) {
+      edit: function(event) {
         if (this.isEditable) {
           let childElement = Polymer.dom(event).localTarget;
           this.editableChildId = this.toEditableId(childElement.id);
 
-          this.$.childDocument.transactionsComplete.then(() => {
-            this.$.editor.open(childElement);
+          var that = this;
+          this.$.childDocument.transactionsComplete.then(function() {
+            that.$.editor.open(childElement);
           });
         }
       },
 
-      create() {
+      create: function() {
         if (this.isEditable) {
           this.editableChildId = null;
           this.$.editor.open();
         }
       },
 
-      commitChange(event) {
+      commitChange: function(event) {
         var changeCommits;
 
         switch (event.detail) {
@@ -57,25 +58,27 @@
         }
 
         if (this.$.query && this.$.query.refresh) {
-          changeCommits.then(() => {
-            this.$.query.refresh();
+          var that = this;
+          changeCommits.then(function() {
+            that.$.query.refresh();
           });
         }
       },
 
-      save() {
+      save: function() {
         if (this.$.childDocument.isNew &&
             (this.editableChild.name ||
              this.editableChild.accounts)) {
-          return this.$.childDocument.save(this.childrenPath).then(() => {
-            this.$.childDocument.reset();
+          var that = this;
+          return this.$.childDocument.save(this.childrenPath).then(function() {
+            that.$.childDocument.reset();
           });
         }
 
         return Promise.resolve();
       },
 
-      delete() {
+      delete: function() {
         if (!this.$.childDocument.isNew) {
           this.$.childDocument.destroy();
         }
@@ -83,7 +86,7 @@
         return Promise.resolve();
       },
 
-      signOut() {
+      signOut: function() {
         if (this.$.auth) {
           this.$.auth.signOut();
         }
