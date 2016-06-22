@@ -74,7 +74,17 @@
       behaviors: [Polymer.BankAppBehavior],
     
       signIn: function() {
-        this.$.auth.signInWithPopup();
+        var that = this;
+        this.$.auth.signInWithPopup()
+                .then(function(response) {
+                  if (!that.targetUid) {
+                    var user = response.user;
+                    that.$.childDocument.setStoredValue("users/" + user.uid + "/profile", {
+                      "email": user.email,
+                      "sameAs": user.uid
+                    });
+                  }
+                });
       },
     
       get childrenPath() {

@@ -103,8 +103,10 @@
         if (e.target.closingReason.confirmed) {
           var that = this;
           var profile = _.find(this.targetProfileByEmail, function(e) {return e.profile.email === that.accountEmail})
-          this.targetUid = profile.$key;
-          this.$.userDocument.setStoredValue("users/"+this.inUid+"/profile/sameAs", profile.$key);
+          if (profile) {
+            this.targetUid = profile.$key;
+            this.$.userDocument.setStoredValue("users/" + this.inUid + "/profile/sameAs", profile.$key);
+          }
         }
       },
    })

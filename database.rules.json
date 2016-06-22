@@ -1,7 +1,10 @@
 {
   ".read": "auth != null",
   ".write": "auth != null",
-  "users" : {
-    ".indexOn": ["email"]
+  "users": {
+    ".read": true,
+    ".indexOn": [
+      "email"
+    ]
   }
 }
