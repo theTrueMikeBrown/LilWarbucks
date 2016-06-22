@@ -70,7 +70,7 @@
     :
     <span>{{toFixed(val)}}</span>
     <paper-icon-button id="toggleChange" icon="create" on-tap="toggleChangeTap" hidden$="{{!editable}}"></paper-icon-button>
-    <paper-icon-button hidden$="{{!changing}}" id="delete" suffix icon="close" on-tap="deleteTap"></paper-icon-button>
+    <paper-icon-button hidden$="{{!changing}}" id="delete" suffix icon="delete" on-tap="deleteTap"></paper-icon-button>
     <paper-input hidden$="{{!changing}}" value="{{changeValue}}" type="number" on-keydown="enterOnChange" id="changeValueInput">
       <paper-icon-button id="doneChanging" suffix icon="done" on-tap="doneChangingTap"></paper-icon-button>
     </paper-input>    
