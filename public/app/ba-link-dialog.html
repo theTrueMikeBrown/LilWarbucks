@@ -102,7 +102,7 @@
       _linkConfirmed: function(e) {
         if (e.target.closingReason.confirmed) {
           var that = this;
-          var profile = _.find(this.targetProfileByEmail, function(e) {return e.profile.email === that.accountEmail})
+          var profile = _.find(this.targetProfileByEmail, function(e) { return e.profile.email.toUpperCase() === that.accountEmail.toUpperCase() })
           if (profile) {
             this.targetUid = profile.$key;
             this.$.userDocument.setStoredValue("users/" + this.inUid + "/profile/sameAs", profile.$key);
