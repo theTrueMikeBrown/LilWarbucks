@@ -1,6 +1,8 @@
 <link rel="import" href="/app/ba-elements.html">
 <link rel="import" href="/bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
 <link rel="import" href="/bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="/bower_components/app-route/app-route.html">
+<link rel="import" href="/bower_components/app-route/app-location.html">
 
 <dom-module id="bank-app">
   <template>
@@ -59,6 +61,11 @@
       target-uid="{{targetUid}}"
       in-uid="[[user.uid]]">
     </ba-link-dialog>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route route="{{route}}" pattern="/child" tail="{{childRoute}}" active="{{childActive}}"></app-route>
+    <app-route route="{{route}}" pattern="/" active="{{homeActive}}"></app-route>
+
     <div class="children">
       <template is="dom-repeat" items="[[persistedChildren]]" as="child">
         <ba-child

@@ -120,7 +120,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         'deleteChildConfirmDialog.iron-overlay-closed':'_deleteConfirmed'
       },
       
-      open(childElement) {
+      open: function(childElement) {
         this._setOpened(true);
         this.__editedChildElement = childElement;
         if (childElement) {
@@ -131,17 +131,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
-      create() {
+      create: function() {
         this._setOpened(true);
         this.child = { name: '', accounts: [{title: '', val: 0.00}] };
         this.transitionInFrom(this.getBoundingClientRect());
       },
 
-      saveTap() {
+      saveTap: function() {
         this.close('save');
       },
 
-      deleteTap() {
+      deleteTap: function() {
         this.$.deleteChildConfirmDialog.toggle();
       },
 
@@ -151,25 +151,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
-      addTap() {
+      addTap: function() {
         this.push("child.accounts", {title: '', val: 0.00});
         //this.notifyPath('child.accounts', this.child.accounts);
       },
       
-      close(detail) {
+      close: function(detail) {
         if (this.__editedChildElement) {
           this.__editedChildElement.style.opacity = 1;
           this.__editedChildElement = null;
         }
 
         this.fire('close', detail, { bubbles: false });
-        this.transitionOut().then(() => {
-          Polymer.dom(this).classList.remove('open');
-          this._setOpened(false);
+        var that = this;
+        this.transitionOut().then(function() {
+            Polymer.dom(that).classList.remove('open');
+            that._setOpened(false);
         });
       },
 
-      transitionInFrom(rect) {
+      transitionInFrom: function(rect) {
         var targetRect = this.getBoundingClientRect();
         var targetLeft = targetRect.width > 500 ?
             targetRect.width / 2 - 240 : 10;
@@ -196,7 +197,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
       },
 
-      transitionOut() {
+      transitionOut: function() {
         var animation = this.animate([{
           opacity: 1,
           easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
@@ -213,7 +214,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           opacity: 0
         }], 500);
 
-        return new Promise(resolve => {
+        return new Promise(function(resolve) {
           animation.addEventListener('finish', resolve);
         });
       }

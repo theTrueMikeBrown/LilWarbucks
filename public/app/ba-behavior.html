@@ -8,6 +8,24 @@
         editableChildId: {
           type: String,
           notify: true
+        },
+        route: {
+          type: String,
+          observer: '_routeChanged',
+        }
+      },
+
+      ready: function() {
+        this.async(function() {
+            this.set('route.path', '/');
+        });
+      },
+
+      _routeChanged: function() {
+        if (this.homeActive) {
+          if (this.$.editor.opened) {
+            this.$.editor.close('save');
+          }
         }
       },
 
@@ -27,6 +45,7 @@
         if (this.isEditable) {
           let childElement = Polymer.dom(event).localTarget;
           this.editableChildId = this.toEditableId(childElement.id);
+          this.set('route.path', '/child');
 
           var that = this;
           this.$.childDocument.transactionsComplete.then(function() {
@@ -39,6 +58,7 @@
         if (this.isEditable) {
           this.editableChildId = null;
           this.$.editor.open();
+          this.set('route.path', '/child');
         }
       },
 
@@ -56,6 +76,7 @@
             changeCommits = Promise.resolve();
             break;
         }
+        this.set('route.path', '/');
 
         if (this.$.query && this.$.query.refresh) {
           var that = this;

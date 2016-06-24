@@ -100,7 +100,7 @@
         'updateTextContent(name)'
       ],
 
-      emptyClass(content, editable) {
+      emptyClass: function(content, editable) {
         if (editable) {
           return !content ? 'placeholder' : '';
         } else {
@@ -108,7 +108,7 @@
         }
       },
 
-      propertiesAreEmpty() {
+      propertiesAreEmpty: function() {
         for (var i = 0; i < arguments.length; ++i) {
           if (arguments[i]) {
             return false;
@@ -117,18 +117,18 @@
         return true;
       },
 
-      updateTextContent(name) {      
+      updateTextContent: function(name) {
         //console.log(arguments);
         this.$.name.textContent = name;
       },
 
-      onInput() {
+      onInput: function() {
         this.async(function() {
           this.name = this.$.name.innerText;
         });
       },
       
-      deleteAccount(e) {
+      deleteAccount: function(e) {
         var i = _.findIndex(this.accounts, function(account) { return e.detail === account.title; });
         if (i > -1) {
           this.splice("accounts", i, 1);
