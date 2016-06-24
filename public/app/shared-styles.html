@@ -17,13 +17,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
-        background-color: #e8e8e8;
+        background-color: var(--paper-green-50);
         height: 100vh;
         @apply(--paper-font-common-base);
 
         --paper-fab-background: var(--paper-orange-500);
       }
 
+      .big-button {
+      --paper-icon-button: {
+         width: 24px;
+         height: 24px;
+       }
+      }
 
       .children {
         position: relative;

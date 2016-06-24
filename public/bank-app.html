@@ -51,6 +51,9 @@
       disabled="[[!online]]"
       aria-label="Add child">
     </paper-fab>
+    <ba-welcome
+      hide-welcome="[[hideWelcome(persistedChildren.*)]]">
+    </ba-welcome>
     <ba-link-dialog
       id="baLinkDialog"
       target-uid="{{targetUid}}"
@@ -72,7 +75,11 @@
       is: 'bank-app',
 
       behaviors: [Polymer.BankAppBehavior],
-    
+
+      hideWelcome: function(children){
+        return children.base && children.base.length !== 0;
+      },
+
       signIn: function() {
         var that = this;
         this.$.auth.signInWithPopup()
