@@ -22,10 +22,8 @@
       },
 
       _routeChanged: function() {
-        if (this.homeActive) {
-          if (this.$.editor.opened) {
-            this.$.editor.close('save');
-          }
+        if (this.homeActive && this.$.editor.opened) {
+          this.$.editor.close('save');
         }
       },
 

@@ -162,6 +162,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.__editedChildElement = null;
         }
 
+        if (this.child.name === '' && !_.some(this.child.accounts, function(a){ return a.title !== '' })) {
+          detail = 'delete';
+        }
+
         this.fire('close', detail, { bubbles: false });
         var that = this;
         this.transitionOut().then(function() {
