@@ -109,6 +109,14 @@
         if (this.$.auth) {
           this.$.auth.signOut();
         }
+      },
+
+      showAbout: function() {
+        this.set('route.path', '/about');
+      },
+
+      hideAbout: function(){
+        this.set('route.path', '/');
       }
     };
 

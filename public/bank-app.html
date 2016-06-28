@@ -10,6 +10,7 @@
     <ba-toolbar
       signed-in="[[signedIn]]"
       on-sign-out="signOut"
+      on-show-about="showAbout"
       on-show-link-dialog="showLinkDialog">
     </ba-toolbar>
     <ba-login
@@ -25,9 +26,11 @@
       user="{{user}}">
     </firebase-auth>
     <ba-editor
+      style="overflow-y: scroll;"
       id="editor"
       child="{{editableChild}}"
-      on-close="commitChange">
+      on-close="commitChange"
+      hide-ads="{{!user.showAds}}">
     </ba-editor>
     <firebase-document
       id="childDocument"
@@ -56,16 +59,19 @@
     <ba-welcome
       hide-welcome="[[hideWelcome(persistedChildren.*)]]">
     </ba-welcome>
+    <ba-about
+      hide-about="[[!aboutActive]]"
+      on-hide-about="hideAbout">
+    </ba-about>
     <ba-link-dialog
       id="baLinkDialog"
       target-uid="{{targetUid}}"
       in-uid="[[user.uid]]">
     </ba-link-dialog>
-
     <app-location route="{{route}}"></app-location>
     <app-route route="{{route}}" pattern="/child" tail="{{childRoute}}" active="{{childActive}}"></app-route>
+    <app-route route="{{route}}" pattern="/about" tail="{{aboutRoute}}" active="{{aboutActive}}"></app-route>
     <app-route route="{{route}}" pattern="/" active="{{homeActive}}"></app-route>
-
     <div class="children">
       <template is="dom-repeat" items="[[persistedChildren]]" as="child">
         <ba-child
@@ -76,7 +82,7 @@
         </ba-child>
       </template>
     </div>
-</template>
+  </template>
   <script>
     Polymer({
       is: 'bank-app',

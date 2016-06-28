@@ -8,8 +8,7 @@
     </style>
     <simple-dialog role="dialog" id="linkAccountDialog">
       <h2>Link Account</h2>
-      <div>Link your account to the following account?</div>
-      <paper-input value="{{accountEmail}}" id="accountEmail"></paper-input>    
+      <paper-input label="Link your account to:" value="{{accountEmail}}" id="accountEmail"></paper-input>
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
         <paper-button dialog-confirm>Accept</paper-button>
@@ -21,12 +20,6 @@
       path="/users/[[inUid]]"
       data="{{profile}}">
     </firebase-document>
-<!--    <firebase-query
-      id="queryUser"
-      app-name="bank"
-      path="/users/[[inUid]]"
-      data="{{profile}}">
-    </firebase-query> -->
     <firebase-query
       id="queryTargetUid"
       app-name="bank"

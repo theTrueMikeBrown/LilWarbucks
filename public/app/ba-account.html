@@ -40,7 +40,7 @@
       }
 
       .placeholder:after {
-        content: 'Tap to edit';
+        content: 'Tap to name account';
         opacity: 0.5;
       }
 
@@ -138,11 +138,11 @@
         this.changeValue = "";
       },
       
-      toFixed(n){
+      toFixed: function(n){
         return n.toFixed ? n.toFixed(2) : n;
       },
-      
-      emptyClass(content, editable) {
+
+      emptyClass: function(content, editable) {
         if (editable) {
           return !content ? 'placeholder' : '';
         } else {
@@ -150,7 +150,7 @@
         }
       },
 
-      propertiesAreEmpty() {
+      propertiesAreEmpty: function() {
         for (var i = 0; i < arguments.length; ++i) {
           if (arguments[i]) {
             return false;
@@ -159,12 +159,12 @@
         return true;
       },
 
-      updateTextContent(title, val) {      
+      updateTextContent: function(title, val) {
         //console.log(arguments);
         this.$.title.textContent = title;
       },
 
-      onInput() {
+      onInput: function() {
         this.async(function() {
           this.title = this.$.title.innerText;
         });

@@ -1,0 +1,57 @@
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+<dom-module id="ba-about">
+  <template>
+    <style>
+      :host {
+        position: absolute;
+        top: 46px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--paper-green-50);
+        transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 2;
+        color: var(--paper-green-900);
+
+      @apply(--layout);
+      @apply(--layout-center-center);
+      }
+
+      :host([hide-about]) {
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
+    <div style="width:75%; line-height: 1.75em;" on-tap="exit">
+      <h3 style="margin-bottom: .75em; margin-top: .5em;">About Lil' Warbucks</h3>
+      <div style="margin-bottom: .5em;">My wife and I wanted our children to learn the value of money. The problem was that they kept
+        losing the cash that they would earn. Because of this, and the fact that we rarely use cash anymore I made Lil'
+        Warbucks.</div>
+      <div style="margin-bottom: .75em;">This app allows us to keep track of their money in an electronic 'bank account'
+        that can be accessed and modified at any time and anywhere.</div>
+      <div style="margin-bottom: .75em;">If you want to share accounts with another user (because you are tracking info
+        for the same children), just click the <iron-icon style="margin-bottom: 3px;" icon="link">link button</iron-icon>
+        above to link your account to theirs by email.</div>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'ba-about',
+
+      properties: {
+        hideAbout: {
+          type: Boolean,
+          reflectToAttribute: true,
+          value: false
+        }
+      },
+
+      exit: function() {
+        this.fire('hide-about');
+      },
+    });
+  </script>
+</dom-module>
