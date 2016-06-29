@@ -26,3 +26,73 @@
 [info] Public Directory: public
 [info] 
 [info] Server listening at: http://localhost:5000
+[debug] ----------------------------------------------------------------------
+[debug] Command:      C:\Program Files\nodejs\node.exe C:\Users\mbrown\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] CLI Version:  3.0.0
+[debug] Platform:     win32
+[debug] Node Version: v5.7.1
+[debug] Time:         Tue Jun 28 2016 14:11:55 GMT-0600 (Mountain Daylight Time)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[info] Starting Firebase development server...
+[info] 
+[info] Project Directory: C:\cygwin64\home\MBrown\git\LilWarbucks
+[info] Public Directory: public
+[info] 
+[info] Server listening at: http://localhost:5000
+[debug] ----------------------------------------------------------------------
+[debug] Command:      C:\Program Files\nodejs\node.exe C:\Users\mbrown\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] CLI Version:  3.0.0
+[debug] Platform:     win32
+[debug] Node Version: v5.7.1
+[debug] Time:         Tue Jun 28 2016 14:13:23 GMT-0600 (Mountain Daylight Time)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[info] Starting Firebase development server...
+[info] 
+[info] Project Directory: C:\cygwin64\home\MBrown\git\LilWarbucks
+[info] Public Directory: public
+[info] 
+[info] Server listening at: http://localhost:5000
+[debug] ----------------------------------------------------------------------
+[debug] Command:      C:\Program Files\nodejs\node.exe C:\Users\mbrown\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] CLI Version:  3.0.0
+[debug] Platform:     win32
+[debug] Node Version: v5.7.1
+[debug] Time:         Tue Jun 28 2016 14:16:00 GMT-0600 (Mountain Daylight Time)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[info] Starting Firebase development server...
+[info] 
+[info] Project Directory: C:\cygwin64\home\MBrown\git\LilWarbucks
+[info] Public Directory: public
+[info] 
+[info] Server listening at: http://localhost:5000
+[debug] ----------------------------------------------------------------------
+[debug] Command:      C:\Program Files\nodejs\node.exe C:\Users\mbrown\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] CLI Version:  3.0.0
+[debug] Platform:     win32
+[debug] Node Version: v5.7.1
+[debug] Time:         Tue Jun 28 2016 22:11:15 GMT-0600 (Mountain Daylight Time)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[info] Starting Firebase development server...
+[info] 
+[info] Project Directory: C:\cygwin64\home\MBrown\git\LilWarbucks
+[info] Public Directory: public
+[info] 
+[info] Server listening at: http://localhost:5000
+[debug] ----------------------------------------------------------------------
+[debug] Command:      C:\Program Files\nodejs\node.exe C:\Users\mbrown\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] CLI Version:  3.0.0
+[debug] Platform:     win32
+[debug] Node Version: v5.7.1
+[debug] Time:         Tue Jun 28 2016 22:11:49 GMT-0600 (Mountain Daylight Time)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[info] Starting Firebase development server...
+[info] 
+[info] Project Directory: C:\cygwin64\home\MBrown\git\LilWarbucks
+[info] Public Directory: public
+[info] 
+[info] Server listening at: http://localhost:5000

@@ -30,7 +30,7 @@
       id="editor"
       child="{{editableChild}}"
       on-close="commitChange"
-      hide-ads="{{!user.showAds}}">
+      ads="[[loggedInUser.profile.showAds]]">
     </ba-editor>
     <firebase-document
       id="childDocument"
@@ -44,6 +44,14 @@
       path="/children/[[targetUid]]"
       data="{{children}}">
     </firebase-query>
+
+    <firebase-document
+      id="loggedInUser"
+      app-name="bank"
+      path="/users/[[user.uid]]"
+      data="{{loggedInUser}}">
+    </firebase-document>
+
     <app-indexeddb-mirror
       session="[[targetUid]]"
       key="children"
