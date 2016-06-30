@@ -16,14 +16,7 @@
         loggedInUser: {
           type: Object,
           notify: true,
-          observer: 'foo'
         },
-      },
-
-      foo:function(u) {
-        var foo = u;
-
-        console.log("u:",u);
       },
 
       ready: function() {
@@ -69,6 +62,10 @@
           this.$.editor.open();
           this.set('route.path', '/child');
         }
+      },
+
+      share: function() {
+        this.$.shareDialog.toggle();
       },
 
       commitChange: function(event) {

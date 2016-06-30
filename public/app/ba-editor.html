@@ -145,6 +145,15 @@
       },
 
       open: function(childElement) {
+        this._setOpened(true);
+        this.__editedChildElement = childElement;
+        if (childElement) {
+          childElement.style.opacity = 0;
+          this.transitionInFrom(childElement.getBoundingClientRect());
+        } else {
+          this.create();
+        }
+
         if(!document.getElementById('anIdThatIsUnlikelyToExist')){
           var elem = document.getElementById('anotherUnlikelyToExistId');
           if (elem) {
@@ -154,15 +163,6 @@
           if (elem2) {
             elem2.style.display = 'none';
           }
-        }
-
-        this._setOpened(true);
-        this.__editedChildElement = childElement;
-        if (childElement) {
-          childElement.style.opacity = 0;
-          this.transitionInFrom(childElement.getBoundingClientRect());
-        } else {
-          this.create();
         }
       },
 
@@ -209,15 +209,16 @@
       },
 
       transitionInFrom: function(rect) {
+        this.$.background.style.display = '';
         var targetRect = this.getBoundingClientRect();
         var targetLeft = targetRect.width > 500 ?
             targetRect.width / 2 - 240 : 10;
         var targetWidth = targetRect.width > 500 ?
-            '480px' : 'calc(100vw - 20px)'
+            `480px` : `calc(100vw - 20px)`
         var childAnimation = this.$.child.animate([{
           transform: `translate(${rect.left}px,${rect.top - 46}px)`,
           width: `${rect.width}px`,
-          easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+          easing: `cubic-bezier(0.4, 0, 0.2, 1)`
         }, {
           transform: `translate(${targetLeft}px, 0px)`,
           width: targetWidth
@@ -225,35 +226,39 @@
 
         var backgroundAnimation = this.$.background.animate([{
           transform: `translate(${rect.left + rect.width / 2 - 128}px, ${rect.top - 46 + rect.height / 2 - 128}px) scale(0.1)`,
-          easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+          easing: `cubic-bezier(0.4, 0, 0.2, 1)`
         }, {
           transform: `scale(${targetRect.width / 256 * 4})`
         }], 800);
 
         childAnimation.addEventListener('finish', () => {
           Polymer.dom(this).classList.add('open');
+          this.$.background.style.display = 'none';
         });
       },
 
       transitionOut: function() {
+        this.$.background.style.display = '';
         var animation = this.animate([{
           opacity: 1,
-          easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+          easing: `cubic-bezier(0.4, 0, 0.2, 1)`
         }, {
           opacity: 0
         }], 300);
 
         this.$.child.animate([{
-          transform: 'translateY(0) scale(1)',
+          transform: `translateY(0) scale(1)`,
           opacity: 1,
-          easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+          easing: `cubic-bezier(0.4, 0, 0.2, 1)`
         }, {
-          transform: 'translateY(10px) scale(0.9)',
+          transform: `translateY(10px) scale(0.9)`,
           opacity: 0
         }], 500);
 
+        var that = this;
         return new Promise(function(resolve) {
           animation.addEventListener('finish', resolve);
+          that.$.background.style.display = 'none';
         });
       }
     });
