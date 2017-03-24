@@ -1,10 +1,12 @@
 {
-  ".read": "auth != null",
-  ".write": "auth != null",
-  "users": {
-    ".read": true,
-    ".indexOn": [
-      "email"
-    ]
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    "users": {
+      ".read": true,
+      ".indexOn": [
+        "email"
+      ]
+    }
   }
 }
