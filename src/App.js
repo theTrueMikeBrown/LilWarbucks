@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TopBar from './TopBar';
+import SignIn from './SignIn';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,6 +15,7 @@ export default function App() {
   return (
     <div className={classes.root}>
       <TopBar />
+      <SignIn />
     </div>
   );
 }
