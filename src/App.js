@@ -1,7 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TopBar from './TopBar';
-import SignIn from './SignIn';
+import LoginPage from './LoginPage';
+import AccountPage from './AccountPage';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -11,11 +13,17 @@ const useStyles = makeStyles(theme => ({
 
 export default function App() {
   const classes = useStyles();
+  const auth = useSelector(state => state.firebase.auth)
 
   return (
     <div className={classes.root}>
-      <TopBar />
-      <SignIn />
+      <TopBar />      
+      {!auth && (
+      <LoginPage />
+      )}
+      {auth && (
+      <AccountPage />
+      )}      
     </div>
   );
 }
