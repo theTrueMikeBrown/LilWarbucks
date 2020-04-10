@@ -1,9 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { useFirebase, isLoaded, isEmpty } from 'react-redux-firebase'
+import { useFirebase, isLoaded } from 'react-redux-firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
-function LoginPage() {
+export function LoginPage() {
   const firebase = useFirebase()
   const auth = useSelector(state => state.firebase.auth)
 
@@ -19,8 +19,7 @@ function LoginPage() {
               signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
               callbacks: {
                 signInSuccessWithAuthResult: (authResult, redirectUrl) => {
-                  firebase.handleRedirectResult(authResult).then(()=>{
-                    var foo = authResult;
+                  firebase.handleRedirectResult(authResult).then(()=> {
                   });
                   return false;
                 },
@@ -32,5 +31,3 @@ function LoginPage() {
   </div>
   )
 }
-
-export default LoginPage

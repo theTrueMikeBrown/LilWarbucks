@@ -2,10 +2,9 @@ import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
-import LilWarbucksIcon from './LilWarbucksIcon';
+import { LilWarbucksIcon } from '../Components/LilWarbucksIcon';
 import { Fab } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 const useStyles = makeStyles(theme => ({
   content: {    
@@ -27,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function WelcomePage() {
+export function WelcomePage() {
   const classes = useStyles();
   const auth = useSelector(state => state.firebase.auth)
 
@@ -37,16 +36,14 @@ function WelcomePage() {
       <div className={classes.p}>Lil' Warbucks was created to help parents keep track of their children's finances.
         With this app, you can make each child as many accounts as they need and update them at any time from your phone
         or computer.</div>
-      <div className={classes.p}>Press the add button <AddIcon className={classes.icon} /> below to add children. Edit
+      <div className={classes.p}>Press the add button <PersonAddIcon className={classes.icon} /> below to add children. Edit
         accounts by tapping the account info box and pressing the edit button <EditIcon className={classes.icon} />.</div>
-      <div className={classes.p}>Click the about button <LilWarbucksIcon className={classes.icon} /> above for more info.
+      <div className={classes.p}>Click the about button <LilWarbucksIcon className={classes.icon} /> above for more info.      
       </div>
       <pre style={{display: "none"}}>{JSON.stringify(auth, null, 2)}</pre>
     </div>
     <Fab className={classes.fab} color="secondary" aria-label="add child">
-      <AddIcon />
+      <PersonAddIcon />
     </Fab>
   </Fragment>);
 }
-
-export default WelcomePage
