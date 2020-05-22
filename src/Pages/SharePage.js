@@ -95,7 +95,7 @@ export function SharePage() {
     <div>
       <a className={classes.anchorButton}
          onClick={returnToMainPage} 
-         href="#" >
+         href="#foo" >
         <Button variant="contained"
                 aria-label="return-to-main-page"
                 color="primary"
