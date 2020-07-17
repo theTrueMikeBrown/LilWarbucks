@@ -8,7 +8,6 @@ import {LogoutIcon} from './LilWarbucksIcon';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import LinkIcon from '@material-ui/icons/Link';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ShareIcon from '@material-ui/icons/Share';
 import { useFirebase } from 'react-redux-firebase'
 import { useDispatch } from 'react-redux'
@@ -67,11 +66,6 @@ export function Menus() {
     setAnchorEl(null);  
   };
 
-  const addChildClick = event => {
-    dispatch({ type: 'add-child' });  
-    setAnchorEl(null);  
-  };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -96,12 +90,6 @@ export function Menus() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem onClick={addChildClick}>
-          <ListItemIcon>
-            <PersonAddIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Add Child" />
-        </StyledMenuItem>
         <StyledMenuItem onClick={linkToAccountClick}>
           <ListItemIcon>
             <LinkIcon fontSize="small" />

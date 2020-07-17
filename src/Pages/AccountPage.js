@@ -16,14 +16,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export function AccountPage() {
+export function AccountPage() {  
   const classes = useStyles();
-  const auth = useSelector(state => state.firebase.auth);
-  
+  const auth = useSelector(state => state.firebase.auth);  
+
   var uid = auth.uid;
-  useFirebaseConnect([`children/${uid}`]);
+  useFirebaseConnect(['users']);
+  const users = useSelector(state => state.firebase.ordered.users);
+  var sameAs = (users && users.find(u => u.key === uid).value.sameAs) || uid;
+
+  useFirebaseConnect([`children/${sameAs}`]);
   const allChildren = useSelector(state => state.firebase.ordered.children);
-  const children = (allChildren && allChildren[uid]) || [];
+  
+  const children = (allChildren && allChildren[sameAs]) || [];
   const kids = children.map(c => c.value);
 
   return (

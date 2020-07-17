@@ -13,15 +13,16 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import  'firebase/database'
 import { actionTypes } from 'react-redux-firebase'
+import * as serviceWorker from './serviceWorker';
 
 const fbConfig = {
-  apiKey: "AIzaSyA2VRCYxdlM8uI3dNdEXvYIJ0E7OaGa1w8",
-  authDomain: "project-72319081053372977.firebaseapp.com",
-  databaseURL: "https://project-72319081053372977.firebaseio.com",
-  projectId: "project-72319081053372977",
-  storageBucket: "project-72319081053372977.appspot.com",
-  messagingSenderId: "79545338073",
-  appId: "1:79545338073:web:233de1946eea360a3a56c8"
+  apiKey: "AIzaSyDqb1tWaEXV-LZzn0ec95qPoUfhp-chYIc",
+  authDomain: "lilwarbucks.firebaseapp.com",
+  databaseURL: "https://lilwarbucks.firebaseio.com",
+  projectId: "lilwarbucks",
+  storageBucket: "lilwarbucks.appspot.com",
+  messagingSenderId: "760833605984",
+  appId: "1:760833605984:web:75168282e6afbde2639e05"
 }
 
 const rrfConfig = {
@@ -56,3 +57,5 @@ ReactDOM.render(
   </Provider>,
   document.querySelector('#root'),
 );
+
+serviceWorker.register()

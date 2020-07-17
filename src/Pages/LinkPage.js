@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { useFirebaseConnect } from 'react-redux-firebase'
+import { useFirebaseConnect, useFirebase } from 'react-redux-firebase'
 
 const useStyles = makeStyles(theme => ({  
   paper: {
@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export function LinkPage() {
+  const firebase = useFirebase()
   const classes = useStyles();
   const auth = useSelector(state => state.firebase.auth);  
   const dispatch = useDispatch();
@@ -31,8 +32,8 @@ export function LinkPage() {
   var uid = auth.uid;
   useFirebaseConnect(['users']);
   const users = useSelector(state => state.firebase.ordered.users);
-  var sameAs = (users && users.find(u => u.key === uid).value.profile.sameAs) || '';
-  var sameAsEmail = (sameAs && users.find(u => u.key === sameAs).value.profile.email) || '';
+  var sameAs = (users && users.find(u => u.key === uid).value.sameAs) || '';
+  var sameAsEmail = (sameAs && users.find(u => u.key === sameAs).value.email) || '';
   function short(s) { return s && s.substring(0,8); }
 
   const [linkEmail, setLinkEmail] = useState(sameAsEmail);
@@ -41,6 +42,9 @@ export function LinkPage() {
   if (!linkKey && sameAs) setLinkKey(short(sameAs));
 
   const handleSubmit = () => {
+    let linkedAccount = users.filter((u)=>u.key.substring(0, 8) === linkKey).filter((u)=>u.value.email.toUpperCase() === linkEmail.toUpperCase())[0];
+    let fullLinkKey = linkedAccount ? linkedAccount.key : '';
+    firebase.set(`users/${uid}/sameAs`, fullLinkKey)
     dispatch({ type: 'change-link', uid: uid, key: linkKey, email: linkEmail });
   };
 
